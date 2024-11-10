@@ -13,28 +13,35 @@ tablature = [corde_mi_grave, corde_la, corde_re, corde_sol, corde_si, corde_mi_a
 
 # Fonction pour maintenir l'alignement
 def ajouter_note_harmonieux():
+    print("Entrer dans note harmonieux")
     max_len = max(len(c) for c in tablature)
     for corde in tablature:
         while len(corde) < max_len:
-            corde.append("-")
+            #probleme ici
+            if(not str(corde[-1]).isdigit()):
+                corde.append("-")
+            
     afficher_tablature()
+    print("Sorti de note harmonieux")
 #Fonction pour ajouter une note
 
 # Fonction d'affichage de la tablature
 def afficher_tablature():
+    print("Entrer dans affichaer tablature")
     tablature_text.delete("1.0", tk.END)  # Efface le texte existant
     cordes_noms = ["E ", "A ", "D ", "G ", "B ", "e "]
     for i, corde in enumerate(tablature):
-        ligne = cordes_noms[i] + "| " + " ".join(corde) + "\n"
+        ligne = cordes_noms[i] + "| " + " ".join(str(note) for note in corde) + "\n"
         tablature_text.insert(tk.END, ligne)
 
 # Fonction déclenchée par le bouton "Ajouter"
-def ajouter_note():
+def ajouter_note(corde, case):
+    print(corde)
+    print(case)
     try:
-        index_corde = int(entry_corde.get()) - 1  # Convertit l'entrée en index (0-5)
-        case = entry_case.get()
+        index_corde = int(corde)  # Convertit l'entrée en index (0-5)
         print("Entré dans le try")
-        if 0 <= index_corde < 6 and case.isdigit():
+        if 0 <= index_corde < 6:
             print("Entré dans le if")
             tablature[index_corde].append(case)
             
@@ -42,6 +49,7 @@ def ajouter_note():
             raise ValueError
     except ValueError:
         error_label.config(text="Erreur : veuillez entrer une corde (1-6) et une case valide.")
+    afficher_tablature()
     
 
 # Interface graphique avec Tkinter
@@ -72,20 +80,19 @@ btn_ajouter.grid(row=0, column=4)
 Frame1 = Frame(root, borderwidth=2, relief=GROOVE)
 Frame1.pack(side=LEFT, padx=30, pady=30)
 
-def case_choix(corde,case):
-    """ Prends en parametre une corde et une case (retournée par un bouton) pour la mettre sur la tablature"""
-    tablature[corde].append(case)
-    print("Entré dans la fonction case_choix")
+
 
 for ligne in range(6):
     for colonne in range(10):
-        if(colonne==0):
+        if(colonne==1000):
             tk.Label(Frame1,text='Corde %s' % (ligne))
             #Button(Frame1, text='C%s' % (ligne), borderwidth=5).grid(row=ligne, column=colonne)
         
-        Button(Frame1, text='%s' % (colonne), borderwidth=5).grid(row=ligne, column=colonne)
-
+        Button(Frame1, text='%s' % (colonne), command=lambda ligne=ligne, colonne=colonne: ajouter_note(ligne,colonne), borderwidth=5).grid(row=ligne, column=colonne)
+fill=Button(root, text='Finir la corde', command=lambda: ajouter_note_harmonieux())
+fill.pack()
 #bouton1=Button(Frame1,text="0", command=case_choix(0,0))
+
 #outon1.pack()
 #bouton2=Button(Frame1,text="0",command=NULL)
 #bouton2.pack()
