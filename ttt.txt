@@ -1,0 +1,45 @@
+Pour créer un fichier APK pour Android à partir de votre projet, vous pouvez utiliser Buildozer. Voici les étapes à suivre :
+
+1. **Installer Buildozer et les dépendances nécessaires** :
+    Assurez-vous d'avoir Python et pip installés sur votre système. Ensuite, installez Buildozer et les dépendances Android :
+
+    ```sh
+    pip install buildozer
+    sudo apt install -y python3-pip openjdk-8-jdk
+    ```
+
+2. **Naviguer vers le répertoire de votre projet** :
+    Ouvrez un terminal et naviguez vers le répertoire où se trouve votre fichier `buildozer.spec`.
+
+    ```sh
+    cd /c:/Users/Yanis/Documents/code/Tablatures
+    ```
+
+3. **Initialiser Buildozer (si ce n'est pas déjà fait)** :
+    Si vous n'avez pas encore de fichier `buildozer.spec`, vous pouvez l'initialiser avec la commande suivante :
+
+    ```sh
+    buildozer init
+    ```
+
+4. **Construire l'APK** :
+    Utilisez la commande suivante pour construire l'APK. Cette commande téléchargera et installera toutes les dépendances nécessaires, puis créera l'APK.
+
+    ```sh
+    buildozer -v android debug
+    ```
+
+    Si vous souhaitez créer une version de release, utilisez :
+
+    ```sh
+    buildozer -v android release
+    ```
+
+5. **Trouver l'APK généré** :
+    Une fois la construction terminée, vous trouverez l'APK dans le répertoire `bin` de votre projet.
+
+    ```sh
+    ls bin/
+    ```
+
+Suivez ces étapes et vous devriez obtenir un fichier APK prêt à être installé sur un appareil Android.
